@@ -1,4 +1,3 @@
-
 using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
@@ -38,4 +37,16 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         Debug.Log("已连接到Photon服务器！");
         PhotonNetwork.JoinLobby();
     }
-}    
+
+    public override void OnJoinedLobby()
+    {
+        Debug.Log("已加入大厅！");
+        PhotonNetwork.JoinOrCreateRoom("Room1", new RoomOptions { MaxPlayers = 4 }, TypedLobby.Default);
+    }
+
+    public override void OnJoinedRoom()
+    {
+        Debug.Log("已加入房间！");
+        PhotonNetwork.Instantiate("Resources/PlayerPrefab", Vector3.zero, Quaternion.identity);
+    }
+}
