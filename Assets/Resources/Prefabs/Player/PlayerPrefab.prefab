@@ -117,6 +117,8 @@ GameObject:
   - component: {fileID: 8379101632269744866}
   - component: {fileID: 6686383262434743881}
   - component: {fileID: 366674684914653316}
+  - component: {fileID: 1234567890123456789}
+  - component: {fileID: 9876543210987654321}
   m_Layer: 0
   m_Name: PlayerPrefab
   m_TagString: Untagged
@@ -320,3 +322,30 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
+
+--- !u!114 &1234567890123456789
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7283530188509153704}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: playercontroller123, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 5.0
+  rotationSpeed: 700.0
+--- !u!114 &9876543210987654321
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7283530188509153704}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: playernetworksync123, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
