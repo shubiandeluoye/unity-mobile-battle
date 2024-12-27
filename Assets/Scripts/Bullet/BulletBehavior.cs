@@ -1,7 +1,8 @@
 using UnityEngine;
 
-public class BulletBehavior : MonoBehaviour
+public class BulletBehavior : MonoBehaviourPunCallbacks
 {
+    private PhotonView photonView;
     public enum BulletType
     {
         Small,
@@ -15,6 +16,7 @@ public class BulletBehavior : MonoBehaviour
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
+        photonView = GetComponent<PhotonView>();
         
         // Set up bullet properties based on type
         switch (type)
@@ -52,8 +54,20 @@ public class BulletBehavior : MonoBehaviour
                     break;
             }
             
-            // Destroy bullet on player hit
-            Destroy(gameObject);
+            // Award points to the shooter
+            if (photonView.IsMine)
+            {
+                int points = type switch
+                {
+                    BulletType.Small => GameManager.SMALL_BULLET_SCORE,
+                    BulletType.Medium => GameManager.MEDIUM_BULLET_SCORE,
+                    BulletType.Large => GameManager.LARGE_BULLET_SCORE,
+                    _ => 0
+                };
+                
+                GameManager.Instance.AddScore(photonView.Owner.ActorNumber, points);
+                PhotonNetwork.Destroy(gameObject);
+            }
         }
     }
 
