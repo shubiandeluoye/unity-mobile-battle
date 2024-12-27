@@ -1,4 +1,6 @@
 using UnityEngine;
+using Photon.Pun;
+using System.Collections;
 
 public class BulletBehavior : MonoBehaviourPunCallbacks
 {
@@ -13,10 +15,22 @@ public class BulletBehavior : MonoBehaviourPunCallbacks
     public BulletType type;
     private Rigidbody rb;
 
+    // Animation and effect parameters
+    private const float LARGE_BULLET_ANIMATION_DURATION = 1.5f;
+    private const float SCREEN_SHAKE_DURATION = 0.5f;
+    private const float SCREEN_SHAKE_MAGNITUDE = 0.3f;
+    private const float PUSH_FORCE = 10f;
+
+    // Interface for special animation components
+    private Animator specialEffectAnimator;
+    private ParticleSystem impactParticleSystem;
+
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
         photonView = GetComponent<PhotonView>();
+        specialEffectAnimator = GetComponent<Animator>();
+        impactParticleSystem = GetComponent<ParticleSystem>();
         
         // Set up bullet properties based on type
         switch (type)
@@ -49,8 +63,8 @@ public class BulletBehavior : MonoBehaviourPunCallbacks
                     StartCoroutine(StunPlayer(collision.gameObject));
                     break;
                 case BulletType.Large:
-                    // Large bullet pushes player back
-                    PushPlayer(collision.gameObject);
+                    // Large bullet pushes player back and triggers special effects
+                    StartCoroutine(LargeBulletEffects(collision.gameObject));
                     break;
             }
             
@@ -83,21 +97,67 @@ public class BulletBehavior : MonoBehaviourPunCallbacks
         }
     }
 
+    private System.Collections.IEnumerator LargeBulletEffects(GameObject player)
+    {
+        // Trigger screen shake
+        if (CameraShakeManager.Instance != null)
+        {
+            CameraShakeManager.Instance.TriggerShake(SCREEN_SHAKE_DURATION, SCREEN_SHAKE_MAGNITUDE);
+        }
+
+        // Play special animation if available
+        if (specialEffectAnimator != null)
+        {
+            photonView.RPC("RPC_PlaySpecialAnimation", RpcTarget.All);
+        }
+
+        // Play impact particles if available
+        if (impactParticleSystem != null)
+        {
+            photonView.RPC("RPC_PlayImpactParticles", RpcTarget.All);
+        }
+
+        // Push player back
+        PushPlayer(player);
+
+        yield return new WaitForSeconds(LARGE_BULLET_ANIMATION_DURATION);
+    }
+
+    [PunRPC]
+    private void RPC_PlaySpecialAnimation()
+    {
+        if (specialEffectAnimator != null)
+        {
+            specialEffectAnimator.SetTrigger("PlayLargeBulletEffect");
+        }
+    }
+
+    [PunRPC]
+    private void RPC_PlayImpactParticles()
+    {
+        if (impactParticleSystem != null)
+        {
+            impactParticleSystem.Play();
+        }
+    }
+
     private void PushPlayer(GameObject player)
     {
         Rigidbody playerRb = player.GetComponent<Rigidbody>();
         if (playerRb != null)
         {
             // Push player back by half the map distance
-            float pushForce = 10f; // Adjust based on map size
             Vector3 pushDirection = (player.transform.position - transform.position).normalized;
-            playerRb.AddForce(pushDirection * pushForce, ForceMode.Impulse);
+            playerRb.AddForce(pushDirection * PUSH_FORCE, ForceMode.Impulse);
         }
     }
 
     private void OnBecameInvisible()
     {
         // Destroy bullet when it leaves the screen
-        Destroy(gameObject);
+        if (photonView.IsMine)
+        {
+            PhotonNetwork.Destroy(gameObject);
+        }
     }
 }

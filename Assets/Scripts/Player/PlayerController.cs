@@ -12,7 +12,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
         photonView = GetComponent<PhotonView>();
         // Determine if this is the left player (first to join) or right player
         isLeftPlayer = PhotonNetwork.LocalPlayer.ActorNumber == 1;
-        boundaryX = isLeftPlayer ? -14f : 14f; // Set boundary based on player side
+        boundaryX = isLeftPlayer ? -7f : 7f; // Set boundary based on player side
     }
 
     void Update()
