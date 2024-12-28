@@ -4,7 +4,6 @@ using System.Collections;
 
 public class BulletBehavior : MonoBehaviourPunCallbacks
 {
-    private PhotonView photonView;
     public enum BulletType
     {
         Small,
@@ -28,7 +27,6 @@ public class BulletBehavior : MonoBehaviourPunCallbacks
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
-        photonView = GetComponent<PhotonView>();
         specialEffectAnimator = GetComponent<Animator>();
         impactParticleSystem = GetComponent<ParticleSystem>();
         
@@ -88,12 +86,14 @@ public class BulletBehavior : MonoBehaviourPunCallbacks
     private System.Collections.IEnumerator StunPlayer(GameObject player)
     {
         // Implement stun logic here (e.g., disable player movement)
-        PlayerController controller = player.GetComponent<PlayerController>();
-        if (controller != null)
+        PlayerEventMovement movement = player.GetComponent<PlayerEventMovement>();
+        if (movement != null)
         {
-            controller.enabled = false;
+            // Store original speed and temporarily disable movement
+            float originalSpeed = movement.speed;
+            movement.speed = 0f;
             yield return new WaitForSeconds(1f);
-            controller.enabled = true;
+            movement.speed = originalSpeed;
         }
     }
 
