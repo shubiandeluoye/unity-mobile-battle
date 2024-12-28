@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using Photon.Pun;
+using Player;  // Add namespace for PlayerController
 
 public class MovementJoystick : MonoBehaviourPunCallbacks, IPointerDownHandler, IPointerUpHandler, IDragHandler
 {
