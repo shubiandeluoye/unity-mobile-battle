@@ -18,9 +18,11 @@ public class UIInputController : MonoBehaviourPunCallbacks
     [SerializeField] private Button downShootButton;
     [SerializeField] private Button straightShootButton;
     [SerializeField] private Button angleToggleButton;
+    [SerializeField] private Button bulletTypeButton; // 子弹类型切换按钮
     
     [Header("射击设置")]
     private bool is45Degree = true; // true为45度，false为30度
+    private BulletType currentBulletType = BulletType.Small; // 当前子弹类型
     
     private PlayerFireController fireController;
     private void Start()
@@ -42,6 +44,8 @@ public class UIInputController : MonoBehaviourPunCallbacks
             downShootButton.onClick.AddListener(() => Shoot(ShootDirection.Down));
         if (straightShootButton != null)
             straightShootButton.onClick.AddListener(() => Shoot(ShootDirection.Straight));
+        if (bulletTypeButton != null)
+            bulletTypeButton.onClick.AddListener(ToggleBulletType);
 
         // 确保启用了增强型触摸支持
         EnhancedTouchSupport.Enable();
@@ -55,12 +59,19 @@ public class UIInputController : MonoBehaviourPunCallbacks
         // 可以在这里添加UI反馈，比如改变按钮颜色等
     }
 
+    private void ToggleBulletType()
+    {
+        if (!photonView.IsMine) return;
+        
+        // 在小型和中型子弹之间切换
+        currentBulletType = currentBulletType == BulletType.Small ? BulletType.Medium : BulletType.Small;
+        
+        // TODO: 更新UI显示，比如改变按钮图标或颜色
+    }
+
     private void Shoot(ShootDirection direction)
     {
         if (!photonView.IsMine) return;
-
-        // 获取当前选择的子弹类型（将在后续实现）
-        BulletType currentBulletType = BulletType.Small; // 临时默认值
         
         // 调用发射控制器的发射方法，传递当前角度模式
         fireController.FireBullet(currentBulletType, direction, is45Degree);
@@ -77,5 +88,7 @@ public class UIInputController : MonoBehaviourPunCallbacks
             downShootButton.onClick.RemoveListener(() => Shoot(ShootDirection.Down));
         if (straightShootButton != null)
             straightShootButton.onClick.RemoveListener(() => Shoot(ShootDirection.Straight));
+        if (bulletTypeButton != null)
+            bulletTypeButton.onClick.RemoveListener(ToggleBulletType);
     }
 }
