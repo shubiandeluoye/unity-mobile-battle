@@ -113,6 +113,30 @@ public class UIInputController : MonoBehaviourPunCallbacks
         specialAttackButton.interactable = false;
     }
 
+    private void ToggleAngle()
+    {
+        if (!photonView.IsMine) return;
+        is45Degree = !is45Degree;
+        // 通知发射控制器角度改变
+        fireController.ToggleAngle();
+    }
+
+    private void ToggleBulletType()
+    {
+        if (!photonView.IsMine) return;
+        currentBulletType = (currentBulletType == BulletType.Small) ? BulletType.Medium : BulletType.Small;
+        // 更新按钮显示状态
+        if (bulletTypeButton != null)
+        {
+            var image = bulletTypeButton.GetComponent<Image>();
+            if (image != null)
+            {
+                // 根据子弹类型更新按钮颜色
+                image.color = (currentBulletType == BulletType.Small) ? Color.white : Color.yellow;
+            }
+        }
+    }
+
     private void OnDestroy()
     {
         // 移除按钮监听
