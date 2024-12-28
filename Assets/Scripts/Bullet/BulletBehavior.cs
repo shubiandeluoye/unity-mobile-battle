@@ -48,7 +48,30 @@ public class BulletBehavior : MonoBehaviourPunCallbacks
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Player"))
+        HandleCollision(collision.gameObject);
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        HandleCollision(other.gameObject);
+    }
+
+    private void HandleCollision(GameObject hitObject)
+    {
+        // Check for shape collision first
+        BaseShape shape = hitObject.GetComponent<BaseShape>();
+        if (shape != null)
+        {
+            shape.OnBulletHit(gameObject);
+            if (photonView.IsMine)
+            {
+                PhotonNetwork.Destroy(gameObject);
+            }
+            return;
+        }
+
+        // Handle player collision
+        if (hitObject.CompareTag("Player"))
         {
             // Handle player hit effects
             switch (type)
@@ -58,11 +81,11 @@ public class BulletBehavior : MonoBehaviourPunCallbacks
                     break;
                 case BulletType.Medium:
                     // Medium bullet stuns for 1 second
-                    StartCoroutine(StunPlayer(collision.gameObject));
+                    StartCoroutine(StunPlayer(hitObject));
                     break;
                 case BulletType.Large:
                     // Large bullet pushes player back and triggers special effects
-                    StartCoroutine(LargeBulletEffects(collision.gameObject));
+                    StartCoroutine(LargeBulletEffects(hitObject));
                     break;
             }
             
