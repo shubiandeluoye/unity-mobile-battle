@@ -12,8 +12,16 @@ GameObject:
   - component: {fileID: 5232444950560398668}
   - component: {fileID: 7113799905464301560}
   - component: {fileID: 8345592084852459203}
+  - component: {fileID: 1234567890123456789}
   m_Layer: 5
-  m_Name: Button
+  m_Name: AngleSwitchButton
+  m_Script: {fileID: 11500000, guid: yourGUID, type: 3}
+  m_Name: AngleSwitchButton
+  m_EditorClassIdentifier: 
+  button: {fileID: 8345592084852459203}
+  buttonImage: {fileID: 7113799905464301560}
+  angle45Color: {r: 0, g: 0.5, b: 1, a: 1}
+  angle30Color: {r: 0, g: 1, b: 0.5, a: 1}
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -120,7 +128,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 7113799905464301560}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: UIInputController
+        m_MethodName: OnAngleSwitchButtonClicked
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &560247646655995707
 GameObject:
   m_ObjectHideFlags: 0
@@ -267,8 +287,15 @@ GameObject:
   - component: {fileID: 7716207280471106976}
   - component: {fileID: 2596225710113224267}
   - component: {fileID: 7534604128304548959}
+  - component: {fileID: 9876543210987654321}
   m_Layer: 5
-  m_Name: Button
+  m_Name: ShootButton
+  m_Script: {fileID: 11500000, guid: yourGUID, type: 3}
+  m_Name: ShootButton
+  m_EditorClassIdentifier: 
+  button: {fileID: 7534604128304548959}
+  buttonImage: {fileID: 2596225710113224267}
+  shootDirection: 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -294,6 +321,126 @@ RectTransform:
   m_AnchoredPosition: {x: 940, y: -150}
   m_SizeDelta: {x: 130, y: 130}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &8675309123456789012
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8675309123456789013}
+  - component: {fileID: 8675309123456789014}
+  - component: {fileID: 8675309123456789015}
+  - component: {fileID: 8675309123456789016}
+  m_Layer: 5
+  m_Name: SpecialAttackButton
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &8675309123456789013
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8675309123456789012}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1854682669781715243}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 800, y: -400}
+  m_SizeDelta: {x: 160, y: 160}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &8675309123456789014
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8675309123456789012}
+  m_CullTransparentMesh: 1
+--- !u!114 &8675309123456789015
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8675309123456789012}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 0.3, b: 0.3, a: 0.8}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!114 &8675309123456789016
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8675309123456789012}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Navigation:
+    m_Mode: 3
+    m_WrapAround: 0
+    m_SelectOnUp: {fileID: 0}
+    m_SelectOnDown: {fileID: 0}
+    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnRight: {fileID: 0}
+  m_Transition: 1
+  m_Colors:
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_ColorMultiplier: 1
+    m_FadeDuration: 0.1
+  m_SpriteState:
+    m_HighlightedSprite: {fileID: 0}
+    m_PressedSprite: {fileID: 0}
+    m_SelectedSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 0}
+  m_AnimationTriggers:
+    m_NormalTrigger: Normal
+    m_HighlightedTrigger: Highlighted
+    m_PressedTrigger: Pressed
+    m_SelectedTrigger: Selected
+    m_DisabledTrigger: Disabled
+  m_Interactable: 0
+  m_TargetGraphic: {fileID: 8675309123456789015}
+  m_OnClick:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!222 &7716207280471106976
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -387,8 +534,16 @@ GameObject:
   - component: {fileID: 5778955710686539859}
   - component: {fileID: 6220525840618465805}
   - component: {fileID: 1227916320077445177}
+  - component: {fileID: 1357924680123456789}
   m_Layer: 5
-  m_Name: MobileControls
+  m_Name: MovementJoystick
+  m_Script: {fileID: 11500000, guid: yourGUID, type: 3}
+  m_Name: MovementJoystick
+  m_EditorClassIdentifier: 
+  joystickBackground: {fileID: 5778955710686539859}
+  joystickHandle: {fileID: 7703140224861728621}
+  moveThreshold: 0.1
+  moveRange: 100
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1242,9 +1397,31 @@ GameObject:
   - component: {fileID: 731942382902902367}
   - component: {fileID: 2723096251701014566}
   - component: {fileID: 5384814516096054091}
+  - component: {fileID: 9567890123456789012}
   m_Layer: 5
-  m_Name: cutButton
+  m_Name: SpecialAttackButton
   m_TagString: Untagged
+  m_Script: {fileID: 11500000, guid: yourGUID, type: 3}
+  m_Name: SpecialAttackButton
+  m_EditorClassIdentifier: 
+  button: {fileID: 5384814516096054091}
+  buttonImage: {fileID: 2723096251701014566}
+  requiredPointsLoss: 45
+  m_OnClick:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: UIInputController
+        m_MethodName: OnSpecialAttackButtonClicked
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1363,8 +1540,38 @@ GameObject:
   - component: {fileID: 3521313615421799153}
   - component: {fileID: 7887684382217350137}
   - component: {fileID: 7469643862008290930}
+  - component: {fileID: 4567890123456789012}
   m_Layer: 5
-  m_Name: Button
+  m_Name: BulletTypeButton
+  m_Script: {fileID: 11500000, guid: yourGUID, type: 3}
+  m_Name: BulletTypeButton
+  m_EditorClassIdentifier: 
+  button: {fileID: 7469643862008290930}
+  buttonImage: {fileID: 7887684382217350137}
+  smallBulletColor: {r: 0.3, g: 0.7, b: 1, a: 1}
+  mediumBulletColor: {r: 1, g: 0.6, b: 0.2, a: 1}
+  m_OnClick:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: UIInputController
+        m_MethodName: OnBulletTypeButtonClicked
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  m_Script: {fileID: 11500000, guid: yourGUID, type: 3}
+  m_Name: BulletTypeButton
+  m_EditorClassIdentifier: 
+  button: {fileID: 7469643862008290930}
+  buttonImage: {fileID: 7887684382217350137}
+  smallBulletColor: {r: 0.3, g: 0.7, b: 1, a: 1}
+  mediumBulletColor: {r: 1, g: 0.6, b: 0.2, a: 1}
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1713,13 +1920,13 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 5778955710686539859}
-  - {fileID: 7836975112487092898}
-  - {fileID: 5045019025457312638}
-  - {fileID: 7227608929203885080}
-  - {fileID: 7645233808623379666}
-  - {fileID: 1153685611736274941}
-  - {fileID: 3354477447558968958}
+  - {fileID: 5778955710686539859}  # MovementJoystick
+  - {fileID: 7836975112487092898}  # BulletTypeButton
+  - {fileID: 5045019025457312638}  # AngleSwitchButton
+  - {fileID: 7227608929203885080}  # ShootButtonUp
+  - {fileID: 7645233808623379666}  # ShootButtonDown
+  - {fileID: 1153685611736274941}  # ShootButtonStraight
+  - {fileID: 3354477447558968958}  # SpecialAttackButton
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -1727,6 +1934,110 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!224 &7227608929203885080
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 150722660204126611}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1854682669781715243}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 940, y: -150}
+  m_SizeDelta: {x: 130, y: 130}
+  m_Pivot: {x: 0.5, y: 0.5}
+  m_Component:
+  - component: {fileID: 7227608929203885080}
+  - component: {fileID: 5232444950560398668}
+  - component: {fileID: 7113799905464301560}
+  - component: {fileID: 8345592084852459203}
+  - component: {fileID: 1234567890123456789}
+  m_Layer: 5
+  m_Name: ShootButtonUp
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+  m_Script: {fileID: 11500000, guid: yourGUID, type: 3}
+  m_Name: ShootButtonUp
+  m_EditorClassIdentifier: 
+  button: {fileID: 8345592084852459203}
+  direction: 0
+  m_OnClick:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: UIInputController
+        m_MethodName: TriggerShoot
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!224 &1153685611736274941
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 150722660204126613}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1854682669781715243}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 920, y: -275}
+  m_SizeDelta: {x: 130, y: 130}
+  m_Pivot: {x: 0.5, y: 0.5}
+  m_Component:
+  - component: {fileID: 1153685611736274941}
+  - component: {fileID: 5232444950560398670}
+  - component: {fileID: 7113799905464301562}
+  - component: {fileID: 8345592084852459205}
+  - component: {fileID: 1234567890123456791}
+  m_Layer: 5
+  m_Name: ShootButtonStraight
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+  m_Script: {fileID: 11500000, guid: yourGUID, type: 3}
+  m_Name: ShootButtonStraight
+  m_EditorClassIdentifier: 
+  button: {fileID: 8345592084852459205}
+  direction: 2
+  m_OnClick:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: UIInputController
+        m_MethodName: TriggerShoot
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 2
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!223 &2015289698400485573
 Canvas:
   m_ObjectHideFlags: 0
