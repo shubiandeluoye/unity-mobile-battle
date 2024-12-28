@@ -7,11 +7,19 @@ public class GameManager : MonoBehaviourPunCallbacks
     public static GameManager Instance { get; private set; }
     
     private Dictionary<int, int> playerScores = new Dictionary<int, int>();
+    private Dictionary<int, int> playerPointsLost = new Dictionary<int, int>();
     private const int SCORE_TO_WIN = 100;
+    private const int POINTS_LOST_FOR_SPECIAL = 45;
     
     public const int SMALL_BULLET_SCORE = 1;
     public const int MEDIUM_BULLET_SCORE = 5;
     public const int LARGE_BULLET_SCORE = 20;
+    
+    public bool IsSpecialAttackAvailable(int playerActorNumber)
+    {
+        return playerPointsLost.ContainsKey(playerActorNumber) && 
+               playerPointsLost[playerActorNumber] >= POINTS_LOST_FOR_SPECIAL;
+    }
 
     private void Awake()
     {
@@ -43,9 +51,11 @@ public class GameManager : MonoBehaviourPunCallbacks
     private void RPC_ResetScores()
     {
         playerScores.Clear();
+        playerPointsLost.Clear();
         foreach (var player in PhotonNetwork.PlayerList)
         {
             playerScores[player.ActorNumber] = 0;
+            playerPointsLost[player.ActorNumber] = 0;
         }
     }
 
@@ -56,9 +66,17 @@ public class GameManager : MonoBehaviourPunCallbacks
             if (!playerScores.ContainsKey(playerActorNumber))
             {
                 playerScores[playerActorNumber] = 0;
+                playerPointsLost[playerActorNumber] = 0;
             }
             
             playerScores[playerActorNumber] += points;
+            
+            // If points are negative (damage taken), track it for special attack
+            if (points < 0)
+            {
+                playerPointsLost[playerActorNumber] += -points;
+                photonView.RPC("RPC_SyncPointsLost", RpcTarget.All, playerActorNumber, playerPointsLost[playerActorNumber]);
+            }
             
             // Synchronize score across network
             photonView.RPC("RPC_SyncScore", RpcTarget.All, playerActorNumber, playerScores[playerActorNumber]);
@@ -78,6 +96,12 @@ public class GameManager : MonoBehaviourPunCallbacks
     private void RPC_SyncScore(int playerActorNumber, int newScore)
     {
         playerScores[playerActorNumber] = newScore;
+    }
+    
+    [PunRPC]
+    private void RPC_SyncPointsLost(int playerActorNumber, int pointsLost)
+    {
+        playerPointsLost[playerActorNumber] = pointsLost;
     }
 
     public void PlayerOutOfBounds(int playerActorNumber)

@@ -19,10 +19,12 @@ public class UIInputController : MonoBehaviourPunCallbacks
     [SerializeField] private Button straightShootButton;
     [SerializeField] private Button angleToggleButton;
     [SerializeField] private Button bulletTypeButton; // 子弹类型切换按钮
+    [SerializeField] private Button specialAttackButton; // 特殊攻击按钮
     
     [Header("射击设置")]
     private bool is45Degree = true; // true为45度，false为30度
     private BulletType currentBulletType = BulletType.Small; // 当前子弹类型
+    private bool isSpecialAttackEnabled = false; // 特殊攻击是否可用
     
     private PlayerFireController fireController;
     private void Start()
@@ -46,6 +48,11 @@ public class UIInputController : MonoBehaviourPunCallbacks
             straightShootButton.onClick.AddListener(() => Shoot(ShootDirection.Straight));
         if (bulletTypeButton != null)
             bulletTypeButton.onClick.AddListener(ToggleBulletType);
+        if (specialAttackButton != null)
+        {
+            specialAttackButton.onClick.AddListener(TriggerSpecialAttack);
+            specialAttackButton.interactable = false; // 初始时禁用特殊攻击按钮
+        }
 
         // 确保启用了增强型触摸支持
         EnhancedTouchSupport.Enable();
@@ -77,6 +84,35 @@ public class UIInputController : MonoBehaviourPunCallbacks
         fireController.FireBullet(currentBulletType, direction, is45Degree);
     }
 
+    private void Update()
+    {
+        if (photonView.IsMine && specialAttackButton != null)
+        {
+            // 检查特殊攻击是否可用
+            bool canUseSpecialAttack = GameManager.Instance.IsSpecialAttackAvailable(photonView.Owner.ActorNumber);
+            if (canUseSpecialAttack != isSpecialAttackEnabled)
+            {
+                isSpecialAttackEnabled = canUseSpecialAttack;
+                specialAttackButton.interactable = isSpecialAttackEnabled;
+            }
+        }
+    }
+
+    private void TriggerSpecialAttack()
+    {
+        if (!photonView.IsMine || !isSpecialAttackEnabled) return;
+        
+        // 判断玩家位置
+        bool isLeftSidePlayer = transform.position.x < 0;
+        
+        // 触发特殊攻击效果
+        CameraShakeManager.Instance.TriggerSpecialAttack(transform, isLeftSidePlayer);
+        
+        // 禁用按钮，防止连续使用
+        isSpecialAttackEnabled = false;
+        specialAttackButton.interactable = false;
+    }
+
     private void OnDestroy()
     {
         // 移除按钮监听
@@ -90,5 +126,7 @@ public class UIInputController : MonoBehaviourPunCallbacks
             straightShootButton.onClick.RemoveListener(() => Shoot(ShootDirection.Straight));
         if (bulletTypeButton != null)
             bulletTypeButton.onClick.RemoveListener(ToggleBulletType);
+        if (specialAttackButton != null)
+            specialAttackButton.onClick.RemoveListener(TriggerSpecialAttack);
     }
 }
