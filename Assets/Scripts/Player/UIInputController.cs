@@ -58,22 +58,22 @@ public class UIInputController : MonoBehaviourPunCallbacks
         EnhancedTouchSupport.Enable();
     }
 
-    private void ToggleAngle()
+    public void SetShootingAngle(bool is45)
     {
         if (!photonView.IsMine) return;
-        
-        is45Degree = !is45Degree;
-        // 可以在这里添加UI反馈，比如改变按钮颜色等
+        is45Degree = is45;
     }
 
-    private void ToggleBulletType()
+    public void SetBulletType(BulletType type)
     {
         if (!photonView.IsMine) return;
-        
-        // 在小型和中型子弹之间切换
-        currentBulletType = currentBulletType == BulletType.Small ? BulletType.Medium : BulletType.Small;
-        
-        // TODO: 更新UI显示，比如改变按钮图标或颜色
+        currentBulletType = type;
+    }
+    
+    public void TriggerShoot(ShootDirection direction)
+    {
+        if (!photonView.IsMine) return;
+        Shoot(direction);
     }
 
     private void Shoot(ShootDirection direction)
